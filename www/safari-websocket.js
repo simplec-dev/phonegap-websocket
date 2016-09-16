@@ -13,6 +13,12 @@ SafariWebSocket.prototype.connect = function(url, onopen, onclose, onerror, onme
 	// open the socket
     exec(this.onMessageReceived, this.onErrorReceived, "SafariWebSocket", "open", [this.url]);
 };
+SafariWebSocket.prototype.onMessageReceived = function(data) {
+	console.log(data);
+};
+SafariWebSocket.prototype.onErrorReceived = function(data) {
+	console.log(data);
+};
 
 SafariWebSocket.prototype.close = function() {
 	// close socket

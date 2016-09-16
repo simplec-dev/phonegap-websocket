@@ -121,7 +121,7 @@ static const size_t  JFRMaxFrameSize        = 32;
         return;
     }
     
-    __weak typeof(self) weakSelf = self;
+    JFRWebSocket __weak *weakSelf = self;
     dispatch_async(self.queue, ^{
         weakSelf.didDisconnect = NO;
     });
@@ -425,7 +425,7 @@ static const size_t  JFRMaxFrameSize        = 32;
         BOOL status = [self validateResponse:buffer length:totalSize responseStatusCode:responseStatusCode];
         if (status == YES) {
             _isConnected = YES;
-            __weak typeof(self) weakSelf = self;
+            JFRWebSocket __weak *weakSelf = self;
             dispatch_async(self.queue,^{
                 if([self.delegate respondsToSelector:@selector(websocketDidConnect:)]) {
                     [weakSelf.delegate websocketDidConnect:self];
@@ -641,7 +641,7 @@ static const size_t  JFRMaxFrameSize        = 32;
                 [self writeError:JFRCloseCodeEncoding];
                 return NO;
             }
-            __weak typeof(self) weakSelf = self;
+            JFRWebSocket __weak *weakSelf = self;
             dispatch_async(self.queue,^{
                 if([weakSelf.delegate respondsToSelector:@selector(websocket:didReceiveMessage:)]) {
                     [weakSelf.delegate websocket:weakSelf didReceiveMessage:str];
@@ -651,7 +651,7 @@ static const size_t  JFRMaxFrameSize        = 32;
                 }
             });
         } else if(response.code == JFROpCodeBinaryFrame) {
-            __weak typeof(self) weakSelf = self;
+            JFRWebSocket __weak *weakSelf = self;
             dispatch_async(self.queue,^{
                 if([weakSelf.delegate respondsToSelector:@selector(websocket:didReceiveData:)]) {
                     [weakSelf.delegate websocket:weakSelf didReceiveData:data];
@@ -676,7 +676,7 @@ static const size_t  JFRMaxFrameSize        = 32;
         self.writeQueue.maxConcurrentOperationCount = 1;
     }
     
-    __weak typeof(self) weakSelf = self;
+    JFRWebSocket __weak *weakSelf = self;
     [self.writeQueue addOperationWithBlock:^{
         if(!weakSelf || !weakSelf.isConnected) {
             return;
@@ -741,7 +741,7 @@ static const size_t  JFRMaxFrameSize        = 32;
 /////////////////////////////////////////////////////////////////////////////
 - (void)doDisconnect:(NSError*)error {
     if(!self.didDisconnect) {
-        __weak typeof(self) weakSelf = self;
+        JFRWebSocket __weak *weakSelf = self;
         dispatch_async(self.queue, ^{
             weakSelf.didDisconnect = YES;
             [weakSelf disconnect];
