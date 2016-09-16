@@ -43,7 +43,6 @@
 
 + (NSData *)dataWithBase64EncodedString:(NSString *)string
 {
-    NSLog(@"dataWithBase64EncodedString");
     const char lookup[] =
     {
         99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99,

@@ -62,7 +62,6 @@ SafariWebSocket.prototype.send = function(data) {
 	    		if (base64data.indexOf(",")>=0) {
 		    		base64data = base64data.substring(base64data.indexOf(",")+1);
 	    		}
-		    	console.log(base64data);
 			    cordova.exec(null, null, "SafariWebSocket", "send", ["blob", base64data]);
 	    	}
 	    };
