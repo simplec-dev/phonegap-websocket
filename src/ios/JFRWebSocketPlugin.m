@@ -51,16 +51,16 @@
                                        resultWithStatus : CDVCommandStatus_ERROR
                                        messageAsString  : @"Missing arguments when calling 'disconnect' action."];
 
-           /* NSDictionary* eventData = [NSDictionary dictionaryWithObject:[NSString stringWithString:@"open"] forKey:@"type"];
+            NSDictionary* eventData = [NSDictionary dictionaryWithObject:[NSString stringWithString:@"closed"] forKey:@"type"];
 
             CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:eventData];
             [result setKeepCallbackAsBool:NO];
             [self.commandDelegate sendPluginResult:result callbackId:self.callbackId];
 
-        	[self setClosing:NO];*/
+        	[self setClosing:NO];
         }
-
         self.callbackId = nil;
+        self.socket = nil;
     }];
 }
 
@@ -104,14 +104,20 @@
 }
 
 -(void)websocketDidDisconnect:(JFRWebSocket*)socket error:(NSError*)error {
-    NSLog(@"websocket is disconnected: %@", [error localizedDescription]);
-    NSMutableDictionary *eventData = [[NSMutableDictionary alloc]init];
-    [eventData setValue:[error localizedDescription] forKey:@"message"];
-    [eventData setValue:@"error" forKey:@"type"];
+	if ([self closing] && self.socket) {
+	    NSLog(@"websocket is disconnected: %@", [error localizedDescription]);
+	    NSMutableDictionary *eventData = [[NSMutableDictionary alloc]init];
+	    [eventData setValue:[error localizedDescription] forKey:@"message"];
+	    [eventData setValue:@"error" forKey:@"type"];
 
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:eventData];
-    [result setKeepCallbackAsBool:NO];
-    [self.commandDelegate sendPluginResult:result callbackId:self.callbackId];
+	    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:eventData];
+	    [result setKeepCallbackAsBool:NO];
+	    [self.commandDelegate sendPluginResult:result callbackId:self.callbackId];
+
+        [self.socket disconnect];
+        self.callbackId = nil;
+        self.socket = nil;
+	}
 }
 
 -(void)websocket:(JFRWebSocket*)socket didReceiveMessage:(NSString*)string {
