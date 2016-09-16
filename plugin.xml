@@ -2,7 +2,7 @@
 
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
       id="com.simplec.websocket"
-      version="0.1.4">
+      version="0.1.5">
 
     <name>WebSocket</name>
     
@@ -21,6 +21,7 @@
     </engines>
 
     <js-module src="www/safari-websocket.js" name="SafariWebSocket">
+		<clobbers target="window.plugins.websocket" />
     </js-module>
 
     <platform name="ios">

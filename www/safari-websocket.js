@@ -56,4 +56,4 @@ SafariWebSocket.prototype.onerror = function(evt) {
 SafariWebSocket.prototype.onmessage = function(evt) {
 };
 
-//module.exports = new SafariWebSocket();
+module.exports = new SafariWebSocket();
