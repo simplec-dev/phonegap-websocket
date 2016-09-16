@@ -1,6 +1,5 @@
 
 var SafariWebSocket = function(url, onopen, onclose, onerror, onmessage) {
-	this.connect(url, onopen, onclose, onerror, onmessage);
 };
 
 SafariWebSocket.prototype.connect = function(url, onopen, onclose, onerror, onmessage) {
@@ -55,3 +54,14 @@ SafariWebSocket.prototype.onerror = function(evt) {
 };
 SafariWebSocket.prototype.onmessage = function(evt) {
 };
+
+SafariWebSocket.install = function () {
+  if (!window.plugins) {
+    window.plugins = {};
+  }
+
+  window.plugins.websocket = new SafariWebSocket();
+  return window.plugins.websocket;
+};
+
+cordova.addConstructor(SafariWebSocket.install);
