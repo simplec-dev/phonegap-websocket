@@ -11,8 +11,8 @@ SafariWebSocket.prototype.connect = function(url, onopen, onclose, onerror, onme
 
     window.addEventListener('SafariWebSocketOpen', this.onopen, false);
     window.addEventListener('SafariWebSocketClose', this.onclose, false);
-    window.addEventListener('SafariWebSocketMessage', this.onerror, false);
-    window.addEventListener('SafariWebSocketError', this.onmessage, false);
+    window.addEventListener('SafariWebSocketMessage', this.onmessage, false);
+    window.addEventListener('SafariWebSocketError', this.onerror, false);
 	// open the socket
     cordova.exec(this.onMessageReceived, this.onErrorReceived, "SafariWebSocket", "open", [this.url]);
 };
