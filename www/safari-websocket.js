@@ -56,4 +56,13 @@ SafariWebSocket.prototype.onerror = function(evt) {
 SafariWebSocket.prototype.onmessage = function(evt) {
 };
 
-module.exports = new SafariWebSocket();
+SafariWebSocket.install = function () {
+  if (!window.plugins) {
+    window.plugins = {};
+  }
+
+  window.plugins.websocket = new SafariWebSocket();
+  return window.plugins.websocket;
+};
+
+cordova.addConstructor(SafariWebSocket.install);
