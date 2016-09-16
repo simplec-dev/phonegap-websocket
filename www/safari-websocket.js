@@ -21,7 +21,7 @@ SafariWebSocket.prototype.onErrorReceived = function(data) {
 
 SafariWebSocket.prototype.close = function() {
 	// close socket
-    cordova.exec(null, null, "SafariWebSocket", "close", []);
+    cordova.exec(null, null, "SafariWebSocket", "stop", []);
 };
 
 SafariWebSocket.prototype.send = function(data) {

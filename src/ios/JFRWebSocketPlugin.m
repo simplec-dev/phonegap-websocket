@@ -38,7 +38,7 @@
     }
 }
 
-- (void)close:(CDVInvokedUrlCommand*)command
+- (void)stop:(CDVInvokedUrlCommand*)command
 {
     [self.commandDelegate runInBackground:^{
         NSLog(@"closing socket");

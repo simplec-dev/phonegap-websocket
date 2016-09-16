@@ -8,7 +8,7 @@
 @property (nonatomic, assign) BOOL closing;
 
 -(void) open: (CDVInvokedUrlCommand *) command;
--(void) close: (CDVInvokedUrlCommand *) command;
+-(void) stop: (CDVInvokedUrlCommand *) command;
 -(void) send: (CDVInvokedUrlCommand *) command;
 
 @end
