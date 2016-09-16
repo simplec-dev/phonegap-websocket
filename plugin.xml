@@ -2,7 +2,7 @@
 
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
       id="com.simplec.websocket"
-      version="0.1.8">
+      version="0.1.9">
 
     <name>WebSocket</name>
     
@@ -36,7 +36,7 @@
         
 		<config-file target="config.xml" parent="/*">
             <feature name="SafariWebSocket">
-				<param name="ios-package" value="SafariWebSocket" />
+				<param name="ios-package" value="JFRWebSocketPlugin" />
                 <param name="onload" value="true" />
             </feature>
         </config-file>
