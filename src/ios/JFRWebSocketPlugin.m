@@ -47,10 +47,6 @@
         NSLog(@"closed socket");
 
         if (self.callbackId) {
-            CDVPluginResult* result = [CDVPluginResult
-                                       resultWithStatus : CDVCommandStatus_ERROR
-                                       messageAsString  : @"Missing arguments when calling 'disconnect' action."];
-
             NSDictionary* eventData = [NSDictionary dictionaryWithObject:[NSString stringWithString:@"closed"] forKey:@"type"];
 
             CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:eventData];
