@@ -681,7 +681,7 @@ static const size_t  JFRMaxFrameSize        = 32;
         if(!weakSelf || !weakSelf.isConnected) {
             return;
         }
-        typeof(weakSelf) strongSelf = weakSelf;
+        JFRWebSocket *strongSelf = weakSelf;
         uint64_t offset = 2; //how many bytes do we need to skip for the header
         uint8_t *bytes = (uint8_t*)[data bytes];
         uint64_t dataLength = data.length;
