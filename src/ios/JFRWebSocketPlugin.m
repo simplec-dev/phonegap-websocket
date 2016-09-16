@@ -31,7 +31,8 @@
     	[self setClosing:NO];
         self.callbackId = command.callbackId;
     	NSString* url = [command.arguments objectAtIndex : 0];
-        self.socket = [[JFRWebSocket alloc] initWithURL:[NSURL URLWithString:url]];
+    	NSMutableArray *protocols = [NSMutableArray array];
+        self.socket = [[JFRWebSocket alloc] initWithURL:[NSURL URLWithString:url] protocols:protocols];
         self.socket.delegate = self;
         [self.socket connect];
     }
@@ -105,8 +106,8 @@
 -(void)websocketDidDisconnect:(JFRWebSocket*)socket error:(NSError*)error {
     NSLog(@"websocket is disconnected: %@", [error localizedDescription]);
     NSMutableDictionary *eventData = [[NSMutableDictionary alloc]init];
-    [contentDictionary setValue:[error localizedDescription] forKey:@"message"];
-    [contentDictionary setValue:@"error" forKey:@"type"];
+    [eventData setValue:[error localizedDescription] forKey:@"message"];
+    [eventData setValue:@"error" forKey:@"type"];
 
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:eventData];
     [result setKeepCallbackAsBool:NO];
@@ -117,9 +118,9 @@
     NSLog(@"Received text: %@", string);
 
     NSMutableDictionary *eventData = [[NSMutableDictionary alloc]init];
-    [contentDictionary setValue:string forKey:@"data"];
-    [contentDictionary setValue:@"string" forKey:@"dataType"];
-    [contentDictionary setValue:@"message" forKey:@"type"];
+    [eventData setValue:string forKey:@"data"];
+    [eventData setValue:@"string" forKey:@"dataType"];
+    [eventData setValue:@"message" forKey:@"type"];
 
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:eventData];
     [result setKeepCallbackAsBool:YES];
@@ -130,9 +131,10 @@
     NSLog(@"Received data: %@", data);
     NSString *dataStr = [data base64EncodedString];
 
-    [contentDictionary setValue:dataStr forKey:@"data"];
-    [contentDictionary setValue:@"string" forKey:@"dataType"];
-    [contentDictionary setValue:@"message" forKey:@"type"];
+    NSMutableDictionary *eventData = [[NSMutableDictionary alloc]init];
+    [eventData setValue:dataStr forKey:@"data"];
+    [eventData setValue:@"string" forKey:@"dataType"];
+    [eventData setValue:@"message" forKey:@"type"];
 
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:eventData];
     [result setKeepCallbackAsBool:YES];
