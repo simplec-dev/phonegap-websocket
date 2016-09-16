@@ -2,7 +2,7 @@
 
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
       id="com.simplec.websocket"
-      version="0.1.15">
+      version="0.1.16">
 
     <name>WebSocket</name>
     

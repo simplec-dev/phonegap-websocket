@@ -17,17 +17,26 @@
             sendPluginResult : result
             callbackId : command.callbackId
          ];
-    } else if (self.callbackId) {
-        // Triggering parameter error
-        CDVPluginResult* result = [CDVPluginResult
-                                   resultWithStatus : CDVCommandStatus_ERROR
-                                   messageAsString  : @"Already connected"];
-        
-        [self.commandDelegate
-            sendPluginResult : result
-            callbackId : command.callbackId
-         ];
-    } else {
+    }  else {
+    	if (self.callbackId) {
+            NSLog(@"closing socket");
+        	[self setClosing:YES];
+            [self.socket disconnect];
+            NSLog(@"closed socket");
+
+            if (self.callbackId) {
+                NSDictionary* eventData = [NSDictionary dictionaryWithObject:[NSString stringWithString:@"closed"] forKey:@"type"];
+
+                CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:eventData];
+                [result setKeepCallbackAsBool:NO];
+                [self.commandDelegate sendPluginResult:result callbackId:self.callbackId];
+
+            	[self setClosing:NO];
+            }
+            self.callbackId = nil;
+            self.socket = nil;
+    	}
+
     	[self setClosing:NO];
         self.callbackId = command.callbackId;
     	NSString* url = [command.arguments objectAtIndex : 0];
