@@ -16,22 +16,20 @@ SafariWebSocket.prototype.connect = function(url, onopen, onclose, onerror, onme
     window.addEventListener('SafariWebSocketError', this.onerror, false);
 	// open the socket
     cordova.exec(this.onMessageReceived, this.onErrorReceived, "SafariWebSocket", "open", [this.url]);
+	this.readyState=1;
 };
 SafariWebSocket.prototype.onMessageReceived = function(data) {
 	var t = data.type;
 
 	if (t=="open") {
-		this.readyState=1;
 		var evt = {type: "open"};
         cordova.fireWindowEvent("SafariWebSocketOpen", evt);
 	}
 	if (t=="closed") {
-		this.readyState=0;
 		var evt = {type: "close"};
         cordova.fireWindowEvent("SafariWebSocketClose", evt);
 	}
 	if (t=="message") {
-		this.readyState=1;
 		if (data.dataType=="string") {
 			var evt = {type: "message", data: data.data};
 	        cordova.fireWindowEvent("SafariWebSocketMessage", evt);
@@ -44,10 +42,12 @@ SafariWebSocket.prototype.onMessageReceived = function(data) {
 };
 SafariWebSocket.prototype.onErrorReceived = function(data) {
 	console.log(data);
+	this.readyState=0;
 };
 
 SafariWebSocket.prototype.close = function() {
 	// close socket
+	this.readyState=0;
     cordova.exec(null, null, "SafariWebSocket", "stop", []);
 };
 
