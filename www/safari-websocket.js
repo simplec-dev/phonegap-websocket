@@ -1,5 +1,6 @@
 
 var SafariWebSocket = function(url, onopen, onclose, onerror, onmessage) {
+	this.readyState=0;
 };
 
 SafariWebSocket.prototype.connect = function(url, onopen, onclose, onerror, onmessage) {
@@ -20,14 +21,17 @@ SafariWebSocket.prototype.onMessageReceived = function(data) {
 	var t = data.type;
 
 	if (t=="open") {
+		this.readyState=1;
 		var evt = {type: "open"};
         cordova.fireWindowEvent("SafariWebSocketOpen", evt);
 	}
 	if (t=="closed") {
+		this.readyState=0;
 		var evt = {type: "close"};
         cordova.fireWindowEvent("SafariWebSocketClose", evt);
 	}
 	if (t=="message") {
+		this.readyState=1;
 		if (data.dataType=="string") {
 			var evt = {type: "message", data: data.data};
 	        cordova.fireWindowEvent("SafariWebSocketMessage", evt);
