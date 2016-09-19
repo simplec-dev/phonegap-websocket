@@ -54,6 +54,8 @@ SafariWebSocket.prototype.close = function() {
 SafariWebSocket.prototype.send = function(data) {
 	if (!data) return;
 	
+	if (!this.readyState) return;
+	
 	if (typeof data === 'string' || data instanceof String) {
 	    cordova.exec(null, null, "SafariWebSocket", "send", ["string", data]);
 	} else if (data instanceof Blob) {
