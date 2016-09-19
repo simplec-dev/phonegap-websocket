@@ -34,7 +34,7 @@ SafariWebSocket.prototype.onMessageReceived = function(data) {
 			var d = JSON.parse(data.data);
 			if (d && d.error && d.error!=null) {
 				var evt = {type: "error", data: d.error};
-		        cordova.fireWindowEvent("SafariWebSocketMessage", evt);
+		        cordova.fireWindowEvent("SafariWebSocketError", evt);
 			} else {
 				var evt = {type: "message", data: data.data};
 		        cordova.fireWindowEvent("SafariWebSocketMessage", evt);
