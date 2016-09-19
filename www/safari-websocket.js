@@ -63,12 +63,14 @@ SafariWebSocket.prototype.send = function(data) {
 	if (!this.readyState) return;
 	
 	if (typeof data === 'string' || data instanceof String) {
+		console.log("sending: "+data);
 	    cordova.exec(null, null, "SafariWebSocket", "send", ["string", data]);
 	} else if (data instanceof Blob) {
 		var base64data = null;
 	    
 	    var reader = new window.FileReader();
 	    reader.onloadend = function() {
+			console.log("sending blob start");
 	    	var base64data = reader.result;     
 	    	if (base64data) {
 	    		if (base64data.indexOf(",")>=0) {
