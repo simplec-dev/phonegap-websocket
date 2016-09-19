@@ -31,8 +31,14 @@ SafariWebSocket.prototype.onMessageReceived = function(data) {
 	}
 	if (t=="message") {
 		if (data.dataType=="string") {
-			var evt = {type: "message", data: data.data};
-	        cordova.fireWindowEvent("SafariWebSocketMessage", evt);
+			var d = JSON.parse(data.data);
+			if (d && d.error && d.error!=null) {
+				var evt = {type: "error", data: d.error};
+		        cordova.fireWindowEvent("SafariWebSocketMessage", evt);
+			} else {
+				var evt = {type: "message", data: data.data};
+		        cordova.fireWindowEvent("SafariWebSocketMessage", evt);
+			}
 		}
 	}
 	if (t=="error") {
